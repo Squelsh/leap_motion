@@ -40,7 +40,8 @@ install(PROGRAMS
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
-if($ENV{LEAP_SDK})
+if(IS_DIRECTORY $ENV{LEAP_SDK})
+  MESSAGE(STATUS "Assuming Leap_SDK at: " $ENV{LEAP_SDK})
   add_executable(leap_camera src/leap_camera.cpp)
   target_link_libraries(leap_camera
     ${catkin_LIBRARIES} $ENV{LEAP_SDK}/lib/x64/libLeap.so
@@ -50,4 +51,6 @@ if($ENV{LEAP_SDK})
   target_link_libraries(leap_hands
     ${catkin_LIBRARIES} $ENV{LEAP_SDK}/lib/x64/libLeap.so
   )
+else()
+  MESSAGE(WARNING "'Leap_SDK' environment variable does not point to a directory!")
 endif()
